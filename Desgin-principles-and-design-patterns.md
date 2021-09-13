@@ -60,7 +60,7 @@
 - ADP - Acyclic Dependencies Principle
     - ***The dependencies between packages must not form cycles***
     - Cycles can be broken using dependency inversion, add new layer of abstraction, and all relevant components depend on the abstraction, the concretions is then freed.
-    - Say we have package {A, B} and package {X, Y}, if a depends on X, and Y depends on B, there is a cycle between them. We can then introduce an interface BY, then we make Y depends on BY, and B implements BY. This way we inverted the dependency Y->B to B->BY, and the packages become {A, B} and {X, Y, BY}.
+    - Say we have package {A, B} and package {X, Y}, if A depends on X, and Y depends on B, there is a cycle between these two packages. We can then introduce an interface BY in {X, Y}, then we make Y depend on BY, and B implements BY. This way we inverted the dependency changing Y->B to B->BY<-Y, and the packages become {A, B} and {X, Y, BY}.
 - SDP - Stable Dependencies Principle
     - ***Depend in the direction of stability***
     - Stability is not frequency of change.
