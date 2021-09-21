@@ -3,7 +3,7 @@ package proxy;
 /**
  * @author yongjie.zhuang
  */
-public interface Service {
+public interface RemoteService {
 
-    void doThings();
+    void invoke();
 }

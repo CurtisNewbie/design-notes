@@ -3,10 +3,10 @@ package proxy;
 /**
  * @author yongjie.zhuang
  */
-public class ServiceImpl implements Service {
+public class RemoteServiceImpl implements RemoteService {
 
     @Override
-    public void doThings() {
+    public void invoke() {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

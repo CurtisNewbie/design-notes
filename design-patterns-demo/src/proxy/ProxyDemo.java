@@ -6,8 +6,12 @@ package proxy;
 public class ProxyDemo {
 
     public static void main(String[] args) {
-        Service target = new ServiceImpl();
-        Service proxy = ProxyUtil.proxy(target, new ServiceLogProxy(target));
-        proxy.doThings();
+        final RemoteService target = new RemoteServiceImpl();
+        final RemoteService serialInvocationProxy = ProxyUtil.proxy(target, new RemoteServiceSerialInvocationProxy(target));
+        for (int i = 0; i < 5; i++) {
+            new Thread(() -> {
+                serialInvocationProxy.invoke();
+            }).start();
+        }
     }
 }

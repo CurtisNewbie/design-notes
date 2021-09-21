@@ -118,7 +118,7 @@ Tom shorterTom = tomFactory.getTom(TomType.SHORTER_TOM);
 Tom tallerTom = tomFactory.getTom(TomType.TALLER_TOM);
 ```
 
-If we are to add a new type of Tom, we add a new enum value. If we want to change the implementation for, e.g., TALLER_TOM, we just change the object provider inside `TomType`. No code change is needed in the client's code base.
+If we are to add a new type of Tom, we add a new enum value. If we want to change the implementation for, e.g., TALLER_TOM, we just change the object provider inside `TomType` or the code in the factory method. No code change is needed in the client's code base, because we don't expose the subclasses that are actual created and returned, only the abstraction is used (Dependency Inversion Principle).
 
 ## 4. Abstract Factory 
 
@@ -199,6 +199,49 @@ Notice that this pattern has nothing to do with the method chaining or the fluen
 
 A proxy provides control for accessing the original object. It may be used to hide the fact that we are calling a remote service. The decorator pattern can be considered as a special kind of proxy, called **Smart Proxy**. A proxy normally doesn't add responsibilities to the target object, it may simply send a remote method invocation on behave of the caller, or it may intercept the method calls if necessary.
 
+For example, we may write a Proxy for a remote service that throttles the method invocation.
+
+```
+public class RemoteServiceSerialInvocationProxy implements InvocationHandler {
+
+    private ConcurrentMap<Method, AtomicInteger> throttleMap = new ConcurrentHashMap<>();
+
+    private final RemoteService target;
+
+    public RemoteServiceSerialInvocationProxy(RemoteService target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        long startTime = System.nanoTime();
+
+        Object o;
+        try {
+            while (shouldThrottle(method))
+                ;
+            o = method.invoke(target, args);
+        } finally {
+            stopThrottling(method);
+        }
+
+        long endTime = System.nanoTime();
+        System.out.println("Invoked method " + method.getName() + " args: " + Arrays.toString(args) + ", took " +
+                ((endTime - startTime) / 1000_000) + " milliseconds");
+        return o;
+    }
+
+    private boolean shouldThrottle(Method method) {
+        throttleMap.computeIfAbsent(method, (k) -> new AtomicInteger(0));
+        return !throttleMap.get(method).compareAndSet(0, 1);
+    }
+
+    private void stopThrottling(Method method) {
+        throttleMap.get(method).compareAndSet(1, 0);
+    }
+}
+```
+
 ## 7. Adapter
 
 Adapter is used to provide compatibility between two independent objects. It may also hide details to use target bean.
@@ -242,7 +285,7 @@ public abstract class AbstractVehicle {
 ```
 ## 9. Decorator 
 
-Decorator is similar to Proxy, it adds responsibilities to an object in runtime. For example, we create a decorator to make an object thread-safe.
+Decorator is similar to Proxy, it adds responsibilities to an object in runtime. For example, we create a decorator to make an object thread-safe. We can wrap multiple decorators in a recursive way to add multiple functionalities, but the proxy is only a single layer. I.e., the Proxy focuses on controlling the target, while Decorator focuses on enhancing the target.
 
 ```
 public class ThreadSafeJobDecorator implements Job {
@@ -276,7 +319,7 @@ Flyweight pattern caches existing objects to provide performance and reduce memo
 
 ## 12. Composite
 
-Composite pattern allows clients to operate in generic manner on objects that may or may not represent a hierarchy of objects. For example, an `ShoppingCart` object can be considered as a composite, and `Good` is merely an interface, the subclasses instances are the actual items bought, but we don't care whether they represent a hierarchy of objects, as long as we define methods like `getTotalPrice()` on `Good` interface.
+Composite pattern allows clients to operate in generic manner on objects that may or may not represent a hierarchy of objects. For example, an `ShoppingCart` object can be considered as a composite. The `Good` is merely an interface, and its subclasses instances are the actual items bought, but we don't care whether they represent a hierarchy of objects, as long as we define methods like `getTotalPrice()` on `Good` interface.
 
 # Behavioral Patterns
 
