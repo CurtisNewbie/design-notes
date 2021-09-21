@@ -2,36 +2,37 @@
 
 - Creational Patterns 创建型模式
 
-    - Singleton 单例
+    - [Singleton 单例](#1-singleton)
         - 懒汉式单例 (lazy)
         - 饿汉式单例 (eager)
-    - Prototype 原型
-    - Factory Method 工厂方法
-    - Abstract Factory 抽象工厂
-    - Builder 建造者 
+    - [Prototype 原型](#2-prototype)
+    - [Factory Method 工厂方法](#3-factory-method)
+    - [Abstract Factory 抽象工厂](#4-abstract-factory)
+    - [Builder 建造者](#5-builder)
 
 - Structural Patterns 结构型模式
 
-    - Proxy 代理
-    - Adapter 适配器
-    - Bridge 桥接
-    - Decorator 装饰
-    - Facade 外观
-    - Flyweight 享元
-    - Composite 组合
+    - [Proxy 代理](#6-proxy)
+    - [Adapter 适配器](#7-adapter)
+    - [Bridge 桥接](#8-bridge)
+    - [Decorator 装饰](#9-decorator)
+    - [Facade 外观](#10-facade)
+    - [Flyweight 享元](#11-flyweight)
+    - [Composite 组合](#12-composite)
 
 - Behavioral Patterns 行为型模式
 
-    - Strategy 策略
-    - Command 命令
-    - Chain of Responsibility 职责链
-    - State 状态
-    - Observer 观察者
-    - Mediator 中介者
-    - Iterator 迭代器
-    - Visitor 访问者
-    - Memento 备忘录
-    - Interpreter 解释器
+    - [Template 模板](#13-template-method)
+    - [Strategy 策略](#14-strategy)
+    - [Command 命令](#15-command)
+    - [Chain of Responsibility 职责链](#16-chain-of-responsibility)
+    - [State 状态](#17-state)
+    - [Observer 观察者](#18-observer)
+    - [Mediator 中介者](#19-mediator)
+    - [Iterator 迭代器](#20-iterator)
+    - [Visitor 访问者](#21-visitor)
+    - [Memento 备忘录](#22-memento)
+    - [Interpreter 解释器](#23-interpreter)
 
 # Creational Design Patterns
 
